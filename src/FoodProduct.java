@@ -51,26 +51,9 @@ public class FoodProduct extends Product
         return currencyFormatter.format(price);
     }
     
-    public void decrement(int upc)
+    public void decrement()
     {
-        if (this.upc == upc)
-        {
-            if (quantity > 0)
-            {
-                quantity--;
-                System.out.println("Updated stock information:");
-                System.out.println(name + "\t" + this.upc + "\t" + quantity + "\t" + 
-                        price + "\t" + expire);
-            }
-            else
-            {
-                System.out.println("The quantity is zero, please check inventory!");
-            }
-        }
-        else
-        {
-            System.out.println("ERROR: This item is not found in the inventory record.");
-        }
+        quantity--;
     }
     
     public String getInfo()

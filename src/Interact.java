@@ -1,6 +1,9 @@
 
+import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Scanner;
@@ -9,7 +12,7 @@ public class Interact
 {   
     static ArrayList<FoodProduct> product = new ArrayList<>();
     
-    public static void main(String[] args)
+    public static void main(String[] args) throws IOException
     {    
         
         final String DEFAULT_FILE = "inventory.txt";
@@ -62,12 +65,12 @@ public class Interact
                         System.out.println("\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n");
                         break;
                     case 4:
-                        //Code goes here.
+                        searchProduct();
                         in.nextLine();
                         System.out.println("\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n");
                         break;
                     case 5:
-                        //Code goes here.
+                        decrement();
                         in.nextLine();
                         System.out.println("\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n");
                         break;
@@ -176,8 +179,38 @@ public class Interact
             System.out.println("The item is not in the inventory!");
         }
     }
+    
+    public static void decrement()
+    {
+        boolean found = false;
+        String upc;
+        Scanner in = new Scanner(System.in);
+        System.out.println("Please enter the UPC: ");
+        upc = in.nextLine();
+        for (FoodProduct i : product) 
+        {
+            if (Integer.toString(i.getUPC()).equals(upc))
+            {
+                found = true;
+                if (i.getQuantity() > 0)
+                {
+                    i.decrement();
+                    System.out.println("Updated stock information: ");
+                    System.out.println(String.format("%20s %15s %10s %8s %12s", i.getName(), i.getUPC(), i.getQuantity(), i.getCost(), i.getExpire()));
+                }
+                else
+                {
+                    System.out.println("Inventory quantity is zero!");
+                }
+            }
+        }
+        if (found == false)
+        {
+            System.out.println("ERROR: This item is not found in the inventory records.");
+        }
+    }
 
-    private static void removeItem() 
+    public static void removeItem() 
     {
         String name;
         Scanner in = new Scanner(System.in);
@@ -200,8 +233,17 @@ public class Interact
         }
     }
     
-    public static void quit() //Not done!
+    public static void quit() throws IOException
     {
+        try (BufferedWriter fileWrite = new BufferedWriter(new FileWriter("inventory.txt"))) {
+            for (FoodProduct i : product)
+            {
+                fileWrite.write(i.getName() + " " + Integer.toString(i.getUPC()) + " " + Integer.toString(i.getQuantity()) + 
+                        Double.toString(i.getPrice()) + " " + Integer.toString(i.getExpire()));
+                fileWrite.newLine();
+            }
+            fileWrite.close();
+        }
         System.exit(0);
     }
 }
