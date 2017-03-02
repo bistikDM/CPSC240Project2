@@ -1,4 +1,3 @@
-
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -8,13 +7,21 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Scanner;
 
+/**
+ * This is the main class which interacts with the user.
+ * @author Daniel Mulyono
+ */
 public class Interact 
 {   
     static ArrayList<FoodProduct> product = new ArrayList<>();
     
     public static void main(String[] args) throws IOException
     {    
-        
+        /*
+        This block loads the inventory.txt file into the program, then split the string by whitespace character.
+        Then creates an array of each line which will be used to create FoodProduct object.
+        The UPC's and expiration's leading zeros will be removed before creating the object.
+        */
         final String DEFAULT_FILE = "inventory.txt";
         Scanner in = new Scanner(System.in);
         int choice;
@@ -101,6 +108,9 @@ public class Interact
         }
     }
 
+    /**
+     * This method will upload any additional .txt files into the program.
+     */
     private static void upload() 
     {
         File file;
@@ -139,6 +149,9 @@ public class Interact
         }
     }
     
+    /*
+    This method will sort the ArrayList by name and then display it.
+    */
     public static void displayByName()
     {
         Collections.sort(product);
@@ -149,6 +162,9 @@ public class Interact
         }
     }
     
+    /*
+    This method will sort the ArrayList by expiration date and then display it.
+    */
     public static void displayByDate()
     {
         ComparatorByDate sortDate = new ComparatorByDate();
@@ -160,6 +176,9 @@ public class Interact
         }
     }
     
+    /*
+    This method will search the ArrayList for an object with a matching name and display information about the object.
+    */
     public static void searchProduct()
     {
         String name;
@@ -182,6 +201,9 @@ public class Interact
         }
     }
     
+    /*
+    This method will search the ArrayList for an object with a matching UPC, decrement the quantity by, and display the updated information.
+    */
     public static void decrement()
     {
         boolean found = false;
@@ -212,6 +234,9 @@ public class Interact
         }
     }
 
+    /*
+    This method will remove an object with a matching name from the ArrayList.
+    */
     public static void removeItem() 
     {
         String name;
@@ -235,6 +260,9 @@ public class Interact
         }
     }
     
+    /*
+    This method will overwrite the inventory.txt file with the ArrayList and then exit the program.
+    */
     public static void quit() throws IOException
     {
         try (BufferedWriter fileWrite = new BufferedWriter(new FileWriter("inventory.txt"))) {
