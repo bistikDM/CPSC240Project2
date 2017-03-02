@@ -1,4 +1,7 @@
+import java.text.NumberFormat;
+import java.util.Currency;
 import java.util.GregorianCalendar;
+import java.util.Locale;
 
 public class FoodProduct extends Product
 {
@@ -38,6 +41,14 @@ public class FoodProduct extends Product
     public int getExpire()
     {
         return expire;
+    }
+    
+    public String getCost()
+    {
+        Locale currentLocale = new Locale.Builder().setLanguage("en").setRegion("US").build();
+        Currency currentCurrency = Currency.getInstance(currentLocale);
+        NumberFormat currencyFormatter = NumberFormat.getCurrencyInstance(currentLocale);
+        return currencyFormatter.format(price);
     }
     
     public void decrement(int upc)

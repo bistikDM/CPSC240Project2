@@ -137,8 +137,12 @@ public class Interact
     public static void display()
     {
         ComparatorByDate sortDate = new ComparatorByDate();
-        
-        System.out.println(String.format("%20s %20s %20s %20s %20s", "Product Name", "UPC", "Quantity", "Cost", "Expiration Date"));
+        Collections.sort(product, sortDate);
+        System.out.println(String.format("%20s %15s %10s %8s %12s", "Product Name", "UPC", "Quantity", "Cost", "Expiration Date"));
+        for (FoodProduct i : product)
+        {
+            System.out.println(String.format("%20s %20s %20s %20s %20s", i.getName(), i.getUPC(), i.getQuantity(), i.getCost(), i.getExpire()));
+        }
     }
     
     public static void searchProduct()
