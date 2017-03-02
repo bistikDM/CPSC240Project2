@@ -52,12 +52,12 @@ public class Interact
                         System.out.println("\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n");
                         break;
                     case 2:
-                        display();
+                        displayByName();
                         in.nextLine();
                         System.out.println("\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n");
                         break;
                     case 3:
-                        //Code goes here.
+                        displayByDate();
                         in.nextLine();
                         System.out.println("\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n");
                         break;
@@ -134,14 +134,24 @@ public class Interact
         }
     }
     
-    public static void display()
+    public static void displayByName()
     {
-        ComparatorByDate sortDate = new ComparatorByDate();
-        Collections.sort(product, sortDate);
+        Collections.sort(product);
         System.out.println(String.format("%20s %15s %10s %8s %12s", "Product Name", "UPC", "Quantity", "Cost", "Expiration Date"));
         for (FoodProduct i : product)
         {
-            System.out.println(String.format("%20s %20s %20s %20s %20s", i.getName(), i.getUPC(), i.getQuantity(), i.getCost(), i.getExpire()));
+            System.out.println(String.format("%20s %15s %10s %8s %12s", i.getName(), i.getUPC(), i.getQuantity(), i.getCost(), i.getExpire()));
+        }
+    }
+    
+    public static void displayByDate()
+    {
+        ComparatorByDate sortDate = new ComparatorByDate();
+        Collections.sort(product, sortDate);
+        System.out.println(String.format("%12s %20s %15s %10s %8s", "Expiration Date", "Product Name", "UPC", "Quantity", "Cost"));
+        for (FoodProduct i : product)
+        {
+            System.out.println(String.format("%12s %20s %15s %10s %8s", i.getExpire(), i.getName(), i.getUPC(), i.getQuantity(), i.getCost()));
         }
     }
     
