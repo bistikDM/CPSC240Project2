@@ -20,6 +20,11 @@ public class FoodProduct extends Product
         gregCal = new GregorianCalendar(year, month, day);
     }
     
+    public void addQuantity(int quantity)
+    {
+        this.quantity += quantity;
+    }
+    
     public GregorianCalendar getTime()
     {
         return gregCal;

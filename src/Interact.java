@@ -107,6 +107,7 @@ public class Interact
         Scanner fileRead = new Scanner(file);
         while (fileRead.hasNextLine())
         {
+            boolean newItem = true;
             String line = in.nextLine();
             String[] item = line.split("\\s+");
             String name = item[0];
@@ -115,7 +116,18 @@ public class Interact
             double cost = Double.parseDouble(item[3]);
             int expire = Integer.parseInt(item[4].replaceFirst("^0+(?!$)", ""));
             FoodProduct addition = new FoodProduct(name, upc, quantity, cost, expire);
-            product.add(addition);
+            for (FoodProduct i : product)
+            {
+                if (i.getName().equals(addition.getName()))
+                {
+                    newItem = false;
+                    i.addQuantity(addition.getQuantity());
+                }
+            }
+            if (newItem == true)
+            {
+                product.add(addition);
+            }
         }
         } catch (FileNotFoundException ex) {
             System.out.println("The file does not exist!");
@@ -126,7 +138,7 @@ public class Interact
     {
         ComparatorByDate sortDate = new ComparatorByDate();
         
-        System.out.println("Product name	  UPC       Quantity 	Cost     Expiration Date");
+        System.out.println(String.format("%20s %20s %20s %20s %20s", "Product Name", "UPC", "Quantity", "Cost", "Expiration Date"));
     }
     
     public static void searchProduct()
