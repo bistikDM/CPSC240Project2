@@ -19,10 +19,11 @@ public class Interact
         Scanner in = new Scanner(System.in);
         int choice;
         boolean loop = true;
-        Scanner fileRead = new Scanner(DEFAULT_FILE);
+        File file = new File(DEFAULT_FILE);
+        Scanner fileRead = new Scanner(file);
         while (fileRead.hasNextLine())
         {
-            String line = in.nextLine();
+            String line = fileRead.nextLine();
             String[] item = line.split("\\s+");
             String name = item[0];
             int upc = Integer.parseInt(item[1].replaceFirst("^0+(?!$)", ""));
@@ -105,13 +106,14 @@ public class Interact
         File file;
         Scanner in = new Scanner(System.in);
         System.out.print("Enter the name of the file: ");
-        file = new File(in.nextLine() + ".txt");
+        String text = in.nextLine();
+        file = new File(text + ".txt");
         try {
         Scanner fileRead = new Scanner(file);
         while (fileRead.hasNextLine())
         {
             boolean newItem = true;
-            String line = in.nextLine();
+            String line = fileRead.nextLine();
             String[] item = line.split("\\s+");
             String name = item[0];
             int upc = Integer.parseInt(item[1].replaceFirst("^0+(?!$)", ""));
@@ -140,10 +142,10 @@ public class Interact
     public static void displayByName()
     {
         Collections.sort(product);
-        System.out.println(String.format("%20s %15s %10s %8s %12s", "Product Name", "UPC", "Quantity", "Cost", "Expiration Date"));
+        System.out.println(String.format("%20s %15s %10s %8s %20s", "Product Name", "UPC", "Quantity", "Cost", "Expiration Date"));
         for (FoodProduct i : product)
         {
-            System.out.println(String.format("%20s %15s %10s %8s %12s", i.getName(), i.getUPC(), i.getQuantity(), i.getCost(), i.getExpire()));
+            System.out.println(String.format("%20s %15s %10s %8s %20s", i.getName(), String.format("%08d", i.getUPC()), i.getQuantity(), i.getCost(), String.format("%08d", i.getExpire())));
         }
     }
     
@@ -151,10 +153,10 @@ public class Interact
     {
         ComparatorByDate sortDate = new ComparatorByDate();
         Collections.sort(product, sortDate);
-        System.out.println(String.format("%12s %20s %15s %10s %8s", "Expiration Date", "Product Name", "UPC", "Quantity", "Cost"));
+        System.out.println(String.format("%20s %20s %15s %10s %8s", "Expiration Date", "Product Name", "UPC", "Quantity", "Cost"));
         for (FoodProduct i : product)
         {
-            System.out.println(String.format("%12s %20s %15s %10s %8s", i.getExpire(), i.getName(), i.getUPC(), i.getQuantity(), i.getCost()));
+            System.out.println(String.format("%20s %20s %15s %10s %8s", String.format("%08d", i.getExpire()), i.getName(), String.format("%08d", i.getUPC()), i.getQuantity(), i.getCost()));
         }
     }
     
@@ -223,7 +225,7 @@ public class Interact
             {
                 checker = true;
                 System.out.println(product.get(i).getName() + " " + product.get(i).getUPC() + 
-                        "has been removed from inventory.");
+                        " has been removed from inventory.");
                 product.remove(i);
             }
         }
@@ -238,7 +240,7 @@ public class Interact
         try (BufferedWriter fileWrite = new BufferedWriter(new FileWriter("inventory.txt"))) {
             for (FoodProduct i : product)
             {
-                fileWrite.write(i.getName() + " " + Integer.toString(i.getUPC()) + " " + Integer.toString(i.getQuantity()) + 
+                fileWrite.write(i.getName() + " " + Integer.toString(i.getUPC()) + " " + Integer.toString(i.getQuantity()) + " " + 
                         Double.toString(i.getPrice()) + " " + Integer.toString(i.getExpire()));
                 fileWrite.newLine();
             }
