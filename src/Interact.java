@@ -113,11 +113,10 @@ public class Interact
      */
     private static void upload() 
     {
-        File file;
         Scanner in = new Scanner(System.in);
         System.out.print("Enter the name of the file: ");
         String text = in.nextLine();
-        file = new File(text + ".txt");
+        File file = new File(text);
         try {
         Scanner fileRead = new Scanner(file);
         while (fileRead.hasNextLine())
@@ -209,7 +208,7 @@ public class Interact
         boolean found = false;
         String upc;
         Scanner in = new Scanner(System.in);
-        System.out.println("Please enter the UPC: ");
+        System.out.print("Please enter the UPC: ");
         upc = in.nextLine();
         for (FoodProduct i : product) 
         {
